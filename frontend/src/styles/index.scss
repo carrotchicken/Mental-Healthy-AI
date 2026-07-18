@@ -1,0 +1,82 @@
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+:root {
+  --font-handwrite: 'Patrick Hand', 'Ma Shan Zheng', cursive, sans-serif;
+  --font-handwrite-cn: 'Ma Shan Zheng', cursive, sans-serif;
+  --sketch-ink: #2c3e50;
+  --sketch-ink-light: #4a6274;
+  --sketch-paper: #fdfaf3;
+  --sketch-yellow: #fff8dc;
+  --sketch-pink: #fff0f3;
+  --sketch-blue: #f0f4ff;
+  --sketch-green: #f2faf0;
+  --sketch-shadow: 2px 3px 0 rgba(0,0,0,0.08);
+  --sketch-shadow-hover: 3px 5px 0 rgba(0,0,0,0.12);
+  --sketch-border: 2px solid #333;
+  --sketch-radius: 6px;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  height: 100vh;
+  background-color: #f1f4f6;
+}
+
+#app {
+  height: 100%;
+}
+
+/* -- 手绘风格按钮微调（不覆盖 Element Plus 核心） -- */
+.sketch-btn {
+  font-family: var(--font-handwrite) !important;
+  border-radius: var(--sketch-radius) !important;
+  box-shadow: var(--sketch-shadow) !important;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1) !important;
+}
+.sketch-btn:hover {
+  transform: translateY(-2px) rotate(-0.5deg);
+  box-shadow: var(--sketch-shadow-hover) !important;
+}
+.sketch-btn:active {
+  transform: translateY(0) rotate(0deg);
+}
+
+.el-header {
+  height: 50px !important;
+  padding: 0 !important;
+  box-shadow: 0px 1px 1px rgba(0,0,0,0.05);
+  border-bottom: 1px solid transparent;
+}
+
+.pagination-info {
+  padding: 10px 0;
+  background-color: #fff;
+  .el-pagination {
+    justify-content: end;
+  }
+}

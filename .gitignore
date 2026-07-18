@@ -1,0 +1,101 @@
+# ============================================
+# Logs
+# ============================================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================
+# Frontend (Vue 3 + Vite)
+# ============================================
+node_modules
+frontend/dist
+frontend/dist-ssr
+*.local
+
+# Auto-generated TypeScript
+auto-imports.d.ts
+components.d.ts
+*.tsbuildinfo
+
+# Vite cache
+.vite/
+
+# ============================================
+# Backend (Spring Boot + Maven)
+# ============================================
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/*.jar.original
+backend/uploads/
+backend/test-uploads/
+backend/*.log
+backend/*.iml
+
+# 真实配置文件（含密码/密钥），用 example 模板替换
+backend/src/main/resources/application.yml
+
+# ============================================
+# Agent (Python FastAPI)
+# ============================================
+**/__pycache__/
+agent/.pytest_cache/
+agent/*.pyc
+agent/.env          # ⚠️ 包含真实 API Key，绝对不能提交！
+agent/.venv/
+agent/data/
+
+# ============================================
+# IDE / Editor
+# ============================================
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.iml
+
+# ============================================
+# Accidental extracted dependency directories
+# (Maven/Node解压到项目根目录的残留)
+# ============================================
+aopalliance/
+ch/
+cn/
+com/
+commons-codec/
+commons-io/
+io/
+jakarta/
+javax/
+net/
+org/
+backend/aopalliance/
+backend/ch/
+backend/cn/
+backend/com/
+backend/commons-codec/
+backend/commons-io/
+backend/io/
+backend/jakarta/
+backend/javax/
+backend/net/
+backend/org/
+
+# ============================================
+# Misc
+# ============================================
+.pnpm-store/
+*.orig
+frontend/nul
