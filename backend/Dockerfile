@@ -16,7 +16,10 @@ WORKDIR /app
 COPY --from=builder /build/src/main/resources/application-example.yml ./application.yml
 COPY --from=builder /build/target/*.jar app.jar
 
+# 启动预热脚本：先开简易 HTTP 扛健康检查，等 Spring Boot 就绪后再交接
+COPY startup.sh .
+RUN chmod +x startup.sh
+
 EXPOSE 8081
 
-# Spring Boot 会优先读取环境变量（如 SPRING_DATASOURCE_URL），覆盖 application.yml 中的值
-ENTRYPOINT ["java", "-jar", "app.jar", "--spring.config.location=file:./application.yml"]
+ENTRYPOINT ["/app/startup.sh"]
