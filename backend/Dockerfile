@@ -7,7 +7,7 @@ COPY pom.xml .
 # 预下载依赖（利用 Docker 缓存层）
 RUN mvn dependency:go-offline -B -q
 COPY src ./src
-RUN mvn package -DskipTests -B -q
+RUN mvn package -DskipTests -B
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
