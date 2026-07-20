@@ -42,8 +42,8 @@ export interface SearchFormData {
 	categoryId?: string
 	status?: string
 	authorName?: string
-	currentPage?: string
-	pageSize?: string
+	currentPage?: number
+	pageSize?: number
 	userId?: string
 	modelScoreRange?: string
 }
@@ -94,9 +94,9 @@ export interface KnowledgeArticle {
 
 // 咨询会话查询参数
 export interface ConsultationSearchParams {
-	currentPage?: string
-	size?: string
-	total?: string
+	currentPage?: number
+	size?: number
+	total?: number
 	emotionTag?: string
 }
 
@@ -130,14 +130,14 @@ export interface ConsultationMessage {
 // 情绪日志查询参数
 export interface EmotionLogSearchParams {
 	current?: string
-	currentPage?: string
+	currentPage?: number
 	dominantEmotion?: string
 	emotionTag?: string
 	maxMoodScore?: string
 	minMoodScore?: string
 	modelScoreRange?: string
-	size?: string
-	total?: string
+	size?: number
+	total?: number
 	userId?: string
 }
 

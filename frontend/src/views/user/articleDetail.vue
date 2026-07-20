@@ -66,7 +66,7 @@
 import { ref, onMounted } from 'vue'
 import type { KnowledgeArticleDetail } from '@/types/user'
 import { getKnowledgeArticleDetail } from '@/api/user'
-import { dayjs } from 'element-plus'
+import dayjs from 'dayjs'
 
 const iconUrl = new URL('@/assets/book.png', import.meta.url).href
 

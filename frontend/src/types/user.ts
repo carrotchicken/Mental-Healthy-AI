@@ -96,8 +96,8 @@ export interface EmotionDiaryVO {
 
 // 查询知识库文章列表提交参数
 export interface KnowledgeArticleQuery {
-	currentPage: string
-	pageSize: string
+	currentPage: number
+	pageSize: number
 	sortDirection: string
 	sortField: string
 }

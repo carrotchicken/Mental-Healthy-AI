@@ -116,7 +116,7 @@ import type {
 
 const tableData = ref<ConsultationSessionItem[]>([])
 
-const pagination = reactive<ConsultationSearchParams>({
+const pagination = reactive({
 	currentPage: 1,
 	size: 3,
 	total: 0,
@@ -141,7 +141,7 @@ const viewSessionDetail = async (session: ConsultationSessionItem) => {
 
 const handleSearch = async () => {
 	try {
-		const response = await getConsultationSessionPage(pagination)
+		const response = await getConsultationSessionPage(pagination as ConsultationSearchParams)
 		tableData.value = response.records as ConsultationSessionItem[]
 		pagination.total = response.total
 	} catch (error) {

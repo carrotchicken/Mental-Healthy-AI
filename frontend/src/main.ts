@@ -17,6 +17,6 @@ Object.entries(ElementPlusIconsVue).forEach(([name, component]) => {
 
 app
 	.use(ElementPlus)
-	.use(router)
 	.use(pinia)
+	.use(router)
 	.mount('#app')

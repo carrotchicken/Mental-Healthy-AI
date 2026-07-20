@@ -73,7 +73,7 @@
 					<div v-if="imgUrl" class="cover-remove">
 						<el-button
 							type="danger"
-							size="mini"
+							size="small"
 							@click="((imgUrl = ''), (formData.coverImage = ''))"
 							>移除图片</el-button
 						>

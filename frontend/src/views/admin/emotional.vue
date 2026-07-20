@@ -311,7 +311,7 @@ const tableData = ref<EmotionLogItem[]>([])
 const pagination = reactive({ currentPage: 1, size: 3, total: 0 })
 
 const handleSearch = async (formData?: SearchFormData) => {
-	const params: EmotionLogSearchParams = { ...pagination, ...formData }
+	const params = { ...pagination, ...formData } as EmotionLogSearchParams
 
 	const { records, total } = await getEmotionlogPage(params)
 	tableData.value = records as EmotionLogItem[]

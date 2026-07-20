@@ -81,6 +81,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import dayjs from 'dayjs'
 import type { KnowledgeArticleQuery, KnowledgeArticle } from '@/types/user'
 import { getKnowledgeArticlesList } from '@/api/user'
 
@@ -106,17 +107,17 @@ const getRecommendArticles = async () => {
 		pageSize: 5,
 		sortDirection: 'desc',
 		sortField: 'readCount',
-	}
+	} as KnowledgeArticleQuery
 	const data = await getKnowledgeArticlesList(params)
 	recommendList.value = data.records
 }
 
 const getPageList = async () => {
-	const params: KnowledgeArticleQuery = {
+	const params = {
 		sortDirection: 'desc',
 		sortField: 'publishedAt',
 		...pagination.value,
-	}
+	} as KnowledgeArticleQuery
 	const data = await getKnowledgeArticlesList(params)
 	articleList.value = data.records
 	pagination.value.total = data.total

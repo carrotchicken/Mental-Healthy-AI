@@ -141,7 +141,7 @@ onMounted(async () => {
 const pagination = reactive({ currentPage: 1, size: 3, total: 0 })
 
 const handleSearch = async (formData?: SearchFormData) => {
-	const params = { ...formData, ...pagination }
+	const params = { ...formData, ...pagination } as SearchFormData
 	const { records, total } = await getArticlePage(params)
 	tableData.value = records as KnowledgeArticle[]
 	pagination.total = total
