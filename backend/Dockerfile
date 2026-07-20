@@ -7,8 +7,6 @@ COPY pom.xml .
 # 预下载依赖（利用 Docker 缓存层）
 RUN mvn dependency:go-offline -B -q
 COPY src ./src
-# 调试：确认源码已复制
-RUN echo "=== Java source files ===" && find src/main/java -name "*.java" | sort && echo "=== Count ===" && find src/main/java -name "*.java" | wc -l
 RUN mvn package -DskipTests -B
 
 FROM eclipse-temurin:17-jre-alpine

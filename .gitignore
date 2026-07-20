@@ -75,17 +75,17 @@ Thumbs.db
 # Accidental extracted dependency directories
 # (Maven/Node解压到项目根目录的残留)
 # ============================================
-aopalliance/
-ch/
-cn/
-com/
-commons-codec/
-commons-io/
-io/
-jakarta/
-javax/
-net/
-org/
+/aopalliance/
+/ch/
+/cn/
+/com/
+/commons-codec/
+/commons-io/
+/io/
+/jakarta/
+/javax/
+/net/
+/org/
 backend/aopalliance/
 backend/ch/
 backend/cn/
