@@ -141,7 +141,7 @@
 <script setup lang="ts">
 import { getDashboardData } from '@/api/admin'
 import type { DashboardData } from '@/types/admin'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import * as echarts from 'echarts'
 
 
@@ -411,6 +411,16 @@ onMounted(async () => {
 	} catch (error) {
 		console.error('Failed to fetch dashboard data:', error)
 	}
+})
+
+// 组件销毁时释放 ECharts 实例，防止内存泄漏
+onBeforeUnmount(() => {
+	emotionChart?.dispose()
+	emotionChart = null
+	consultationChart?.dispose()
+	consultationChart = null
+	userActivityChart?.dispose()
+	userActivityChart = null
 })
 </script>
 

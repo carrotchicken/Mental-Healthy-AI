@@ -272,7 +272,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { ElMessage } from 'element-plus'
 import {
 	startSession,
@@ -295,6 +295,9 @@ const iconUrl2 = new URL('@/assets/like.png', import.meta.url).href
 const iconUrl3 = new URL('@/assets/users.png', import.meta.url).href
 
 const isAiTying = ref<boolean>(false)
+
+// SSE 连接控制器：组件销毁时用于主动中断连接，防止后端长连接堆积
+const abortController = ref<AbortController | null>(null)
 
 const currentSession = ref<Record<string, string>>({
 	sessionId: `temp_${Date.now()}`,
@@ -409,8 +412,12 @@ const startAiResponse = async (sessionId: string, userMessage: string) => {
 	}
 	messageList.value.push(aiMessage)
 
+	// 如果已有正在进行的 SSE 连接，先中断旧的再建新的
+	if (abortController.value) {
+		abortController.value.abort()
+	}
 	try {
-		const ctrl = new AbortController()
+		abortController.value = new AbortController()
 		fetchEventSource('/api/psychological-chat/stream', {
 			method: 'POST',
 			headers: {
@@ -422,14 +429,14 @@ const startAiResponse = async (sessionId: string, userMessage: string) => {
 				sessionId,
 				userMessage,
 			}),
-			signal: ctrl.signal,
+			signal: abortController.value.signal,
 			async onopen(response) {
 				if (
 					response.headers.get('Content-Type') !== 'text/event-stream'
 				) {
 					ElMessage.error('服务器返回了非流式数据，无法开始对话')
 					isAiTying.value = false
-					ctrl.abort()
+					abortController.value?.abort()
 					return
 				}
 			},
@@ -441,7 +448,7 @@ const startAiResponse = async (sessionId: string, userMessage: string) => {
 					messageList.value[messageList.value.length - 1]
 				if (eventName === 'done') {
 					isAiTying.value = false
-					ctrl.abort()
+					abortController.value?.abort()
 					getCurrentEmotion(currentSession.value.sessionId)
 					getHistorySessionPage()
 					return
@@ -572,6 +579,14 @@ const getCurrentEmotion = async (sessionId: string) => {
 onMounted(() => {
 	getHistorySessionPage()
 	createNewSession()
+})
+
+// 组件销毁时强制中断 SSE 连接，防止后端长连接堆积
+onBeforeUnmount(() => {
+	if (abortController.value) {
+		abortController.value.abort()
+		abortController.value = null
+	}
 })
 </script>
 
