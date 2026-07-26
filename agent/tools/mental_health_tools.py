@@ -8,7 +8,13 @@ import logging
 from langchain_core.tools import tool
 from typing import Optional
 
-from services.rag_service import rag_service
+# RAG 服务可选——未安装时知识库搜索工具返回提示信息
+try:
+    from services.rag_service import rag_service
+    _rag_available = True
+except ImportError:
+    rag_service = None
+    _rag_available = False
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +26,8 @@ def search_knowledge_base(query: str) -> str:
     """搜索心理健康知识库，获取与用户问题相关的心理学科普内容。
     适用于：用户询问心理学概念、症状、治疗方法、应对技巧等。
     参数 query: 用户自然语言查询, 如: 如何缓解焦虑"""
+    if not _rag_available:
+        return "知识库检索功能暂未启用，请直接根据心理学专业知识回答用户问题。"
     # 真实 FAISS 语义检索：Sentence-Transformers 向量化 → FAISS Top-3
     results = rag_service.search(query, top_k=3)
     if not results:
