@@ -17,7 +17,15 @@ import config
 from services.agent_service import agent_chat_service
 from services.emotion_service import emotion_service
 from services.diary_service import diary_service
-from services.rag_service import rag_service
+
+# RAG 服务可选——依赖 faiss + sentence-transformers（~3GB），
+# 未安装时对话/情绪/日记功能不受影响，仅知识库检索不可用
+try:
+    from services.rag_service import rag_service
+    _rag_available = True
+except ImportError:
+    rag_service = None
+    _rag_available = False
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -28,11 +36,14 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     """启动时尝试从磁盘加载已有索引"""
     logger.info("正在加载 FAISS 索引...")
-    loaded = rag_service.load()
-    if loaded:
-        logger.info(f"FAISS 索引加载成功: {rag_service.total_vectors} 个向量, {rag_service.total_articles} 篇文章")
+    if _rag_available:
+        loaded = rag_service.load()
+        if loaded:
+            logger.info(f"FAISS 索引加载成功: {rag_service.total_vectors} 个向量, {rag_service.total_articles} 篇文章")
+        else:
+            logger.info("未找到已有索引，等待 Spring Boot 推送知识库数据进行重建")
     else:
-        logger.info("未找到已有索引，等待 Spring Boot 推送知识库数据进行重建")
+        logger.info("RAG 未安装（faiss/sentence-transformers），知识库检索暂不可用，核心对话功能正常")
     yield
 
 
@@ -137,6 +148,8 @@ async def agent_diary_analyze(request: DiaryRequest):
 
 @app.post("/api/agent/rag/rebuild")
 async def rag_rebuild(request: RAGRebuildRequest):
+    if not _rag_available:
+        raise HTTPException(status_code=503, detail="RAG 服务未安装（faiss/sentence-transformers）")
     """全量重建 FAISS 索引。Spring Boot 在知识库文章增删改后调用。"""
     articles = [a.model_dump() for a in request.articles]
     try:
@@ -150,6 +163,8 @@ async def rag_rebuild(request: RAGRebuildRequest):
 
 @app.post("/api/agent/rag/article/add")
 async def rag_article_add(article: RAGArticle):
+    if not _rag_available:
+        raise HTTPException(status_code=503, detail="RAG 服务未安装")
     """增量添加单篇文章到索引"""
     try:
         rag_service.add_article(article.id, article.title, article.content)
@@ -161,6 +176,8 @@ async def rag_article_add(article: RAGArticle):
 
 @app.delete("/api/agent/rag/article/{article_id}")
 async def rag_article_remove(article_id: int):
+    if not _rag_available:
+        raise HTTPException(status_code=503, detail="RAG 服务未安装")
     """按 ID 删除文章的所有分块"""
     try:
         rag_service.remove_article(article_id)
@@ -172,6 +189,8 @@ async def rag_article_remove(article_id: int):
 
 @app.put("/api/agent/rag/article/{article_id}")
 async def rag_article_update(article_id: int, article: RAGArticle):
+    if not _rag_available:
+        raise HTTPException(status_code=503, detail="RAG 服务未安装")
     """更新单篇文章（先删后加）"""
     try:
         rag_service.update_article(article_id, article.title, article.content)
@@ -183,12 +202,16 @@ async def rag_article_update(article_id: int, article: RAGArticle):
 
 @app.get("/api/agent/rag/stats")
 async def rag_stats():
+    if not _rag_available:
+        return {"code": "200", "data": {"status": "unavailable", "message": "RAG 未安装"}}
     """查询索引状态"""
     return {"code": "200", "data": rag_service.get_stats()}
 
 
 @app.post("/api/agent/rag/search")
 async def rag_search(query: str, top_k: int = 3):
+    if not _rag_available:
+        raise HTTPException(status_code=503, detail="RAG 服务未安装")
     """直接语义检索（调试用，生产由 function calling 调用）"""
     results = rag_service.search(query, top_k)
     return {"code": "200", "data": results}
