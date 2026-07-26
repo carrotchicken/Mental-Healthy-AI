@@ -14,8 +14,13 @@ import axios from 'axios'
 import type { InternalAxiosRequestConfig, AxiosResponse, AxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 
-// 创建 axios 实例，baseURL='/api' 配合 Vite proxy 转发到后端 8081
-const instance = axios.create({ baseURL: '/api', timeout: 5000 })
+// 创建 axios 实例
+// 开发环境：baseURL='/api' 配合 Vite proxy 转发到 localhost:8081
+// 生产环境：baseURL 从 .env.production 读取后端公网地址（Vite build 时注入）
+const instance = axios.create({
+	baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+	timeout: 5000,
+})
 
 // ── 请求拦截器：每次请求前自动加 Token ──
 instance.interceptors.request.use(
