@@ -11,7 +11,7 @@ import com.amha.entity.User;
 import com.amha.mapper.UserMapper;
 import com.amha.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,13 +20,19 @@ import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final JwtUtil jwtUtil;
     private final RedisTemplate<String, String> redisTemplate;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public UserServiceImpl(UserMapper userMapper, JwtUtil jwtUtil,
+                           @Autowired(required = false) RedisTemplate<String, String> redisTemplate) {
+        this.userMapper = userMapper;
+        this.jwtUtil = jwtUtil;
+        this.redisTemplate = redisTemplate;
+    }
 
     @Override
     public LoginResponse login(LoginRequest request) {
@@ -43,9 +49,11 @@ public class UserServiceImpl implements UserService {
         }
 
         String token = jwtUtil.generateToken(user.getId(), user.getUsername(), user.getUserType());
-        // 缓存token，过期时间比JWT略长
-        redisTemplate.opsForValue().set("token:" + token, user.getId().toString(),
-                24, TimeUnit.HOURS);
+        // 缓存token（Redis可用时才缓存，不可用时跳过不影响功能）
+        if (redisTemplate != null) {
+            redisTemplate.opsForValue().set("token:" + token, user.getId().toString(),
+                    24, TimeUnit.HOURS);
+        }
 
         String roleType = user.getUserType() == 2 ? "ADMIN" : "USER";
         UserInfoVO userInfo = buildUserInfoVO(user);
@@ -77,7 +85,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void logout(String token) {
-        redisTemplate.delete("token:" + token);
+        if (redisTemplate != null) {
+            redisTemplate.delete("token:" + token);
+        }
     }
 
     private UserInfoVO buildUserInfoVO(User user) {
