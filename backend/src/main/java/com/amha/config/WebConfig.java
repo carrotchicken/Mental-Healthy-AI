@@ -30,6 +30,9 @@ public class WebConfig implements WebMvcConfigurer {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(List.of(
                 "https://mentalhealth-aymi-d3gfbp2ir98b1ac06.webapps.tcloudbase.com",
+                "https://aymi-d3gfbp2ir98b1ac06-1429643134.tcloudbaseapp.com",
+                "https://*.tcloudbaseapp.com",
+                "https://*.webapps.tcloudbase.com",
                 "http://localhost:5173",
                 "http://localhost:8080"
         ));
