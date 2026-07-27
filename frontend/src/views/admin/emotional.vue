@@ -320,11 +320,18 @@ const handleSearch = async (formData?: SearchFormData) => {
 
 const detailDialogVisible = ref<boolean>(false)
 const currentDetail = ref<EmotionLogItem | null>(null)
-const aiData = ref<Record<string, string | number>>({})
+const aiData = ref<Record<string, any>>({})
 const viewSessionDetail = (row: EmotionLogItem) => {
 	currentDetail.value = row
 	detailDialogVisible.value = true
-	aiData.value = { analysis: row.aiEmotionAnalysis || '暂无AI分析结果' }
+	try {
+		aiData.value = row.aiEmotionAnalysis
+			? JSON.parse(row.aiEmotionAnalysis)
+			: {}
+	} catch {
+		// 如果不是 JSON（纯文本降级），保持模板里的 `||` 兜底显示
+		aiData.value = { _raw: row.aiEmotionAnalysis }
+	}
 }
 
 const handleDelete = (row: EmotionLogItem) => {
