@@ -1,3 +1,7 @@
+---
+typora-root-url: uploads
+---
+
 # 🧠 AI 心理健康助手 — AI Mental Health Assistant (AMHA)
 
 <p align="center">
@@ -74,21 +78,21 @@
 
 | AI 对话 | 情绪日记 | 知识库 |
 |:---:|:---:|:---:|
-| <img src="" width="280" alt="AI对话"> | <img src="" width="280" alt="情绪日记"> | <img src="" width="280" alt="知识库"> |
-
-| 对话记录 | 情绪分析报告 |
-|:---:|:---:|
-| <img src="" width="280" alt="对话记录"> | <img src="" width="280" alt="情绪分析"> |
+| ![i-chat](/ai-chat1.png) | ![i-diary](/ai-diary1.png) | ![ental-kownledge](/mental-kownledge1.png) |
+| ![i-chat](/ai-chat2.png) | ![i-diary](/ai-diary2.png) | ![ental-kownledge](/mental-kownledge2.png) |
+|  | ![i-diary](/ai-diary3.png) |  |
 
 ### 管理端
 
 | 数据仪表盘 | 文章管理 | 咨询记录 |
 |:---:|:---:|:---:|
-| <img src="" width="280" alt="仪表盘"> | <img src="" width="280" alt="文章管理"> | <img src="" width="280" alt="咨询记录"> |
+| ![ata-analysis](/data-analysis1.png) | ![rticl](/article.png) | ![onsult-histor](/consult-history.png) |
+| ![ata-analysis](/data-analysis2.png) | ![dit](/edit1.png) | ![onsult-history](/consult-history2.png) |
 
 | 情感分析管理 |
 |:---:|
-| <img src="" width="500" alt="情感分析"> |
+| ![motion-analysi](/emotion-analysis.png) |
+| ![motion-analysis](/emotion-analysis2.png) |
 
 ---
 
