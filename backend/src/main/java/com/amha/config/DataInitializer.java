@@ -30,6 +30,11 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         if (hasData()) {
             log.info("数据已存在，跳过初始化");
+            // 但情绪日记可能被单独清空过，补一下
+            if (emotionDiaryMapper.selectCount(new LambdaQueryWrapper<>()) == 0) {
+                log.info("情绪日记表为空，补充初始化...");
+                initDiaries();
+            }
             return;
         }
         log.info("开始初始化数据...");
