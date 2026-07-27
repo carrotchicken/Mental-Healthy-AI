@@ -131,6 +131,12 @@
 				</div>
 				<div class="detail-section">
 					<h4>AI情绪分析结果</h4>
+					<!-- 旧数据降级：非 JSON 格式时直接展示原文 -->
+					<div v-if="aiData._raw" class="ai-raw-fallback">
+						<el-alert type="info" :closable="false" show-icon>
+							<template #title>{{ aiData._raw }}</template>
+						</el-alert>
+					</div>
 					<div class="ai-analysis-result">
 						<el-descriptions :column="2" border>
 							<el-descriptions-item label="主要情绪">
@@ -334,8 +340,17 @@ const viewSessionDetail = (row: EmotionLogItem) => {
 			? JSON.parse(row.aiEmotionAnalysis)
 			: {}
 	} catch {
-		// 如果不是 JSON（纯文本降级），保持模板里的 `||` 兜底显示
-		aiData.value = { _raw: row.aiEmotionAnalysis }
+		// 旧数据是纯文本，用 _raw 保留原文，模板里展示降级内容
+		aiData.value = {
+			_raw: row.aiEmotionAnalysis,
+			primaryEmotion: '-',
+			emotionScore: 0,
+			riskLevel: 0,
+			isNegative: false,
+			suggestion: '',
+			riskDescription: '',
+			improvementSuggestions: [],
+		}
 	}
 }
 
