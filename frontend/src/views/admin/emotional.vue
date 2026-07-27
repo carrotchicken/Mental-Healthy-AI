@@ -160,7 +160,7 @@
 											aiData.riskLevel as 0 | 1 | 2 | 3,
 										)
 									"
-									>{{ aiData.riskLevel }}</el-tag
+									>{{ getRiskLevelText(aiData.riskLevel as number) }}</el-tag
 								>
 							</el-descriptions-item>
 							<el-descriptions-item label="情绪性质">
@@ -284,6 +284,11 @@ const getEmotionScoreColor = (score: number) => {
 const getRiskLevelTagType = (riskLevel: 0 | 1 | 2 | 3) => {
 	const riskTagMap = { 0: 'success', 1: 'info', 2: 'warning', 3: 'danger' }
 	return riskTagMap[riskLevel] || 'info'
+}
+
+const getRiskLevelText = (riskLevel: number) => {
+	const map: Record<number, string> = { 0: '无风险', 1: '低风险', 2: '中风险', 3: '高风险' }
+	return map[riskLevel] ?? String(riskLevel)
 }
 
 const formItem: FormItemConfig[] = [

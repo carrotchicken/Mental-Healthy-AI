@@ -166,8 +166,29 @@ public class DataInitializer implements CommandLineRunner {
         diary.setStressLevel(stressLevel);
         diary.setHasAiEmotionAnalysis(1);
         diary.setAiAnalysisStatus("COMPLETED");
-        diary.setAiEmotionAnalysis("情绪分析完成");
+        diary.setAiEmotionAnalysis("""
+                {
+                    "primaryEmotion": "%s",
+                    "emotionScore": %d,
+                    "riskLevel": 0,
+                    "riskDescription": "当前情绪状态正常，无需特殊干预",
+                    "isNegative": %s,
+                    "suggestion": "%s",
+                    "improvementSuggestions": ["保持规律作息", "适当运动锻炼", "与亲友保持沟通"]
+                }
+                """.formatted(emotion, moodScore * 10, "悲伤,焦虑,愤怒".contains(emotion), getSuggestion(emotion)));
         emotionDiaryMapper.insert(diary);
+    }
+
+    private String getSuggestion(String emotion) {
+        return switch (emotion) {
+            case "焦虑" -> "尝试深呼吸放松练习，减少咖啡因摄入";
+            case "悲伤" -> "允许自己感受情绪，写日记有助于梳理内心";
+            case "愤怒" -> "暂停片刻再做决定，运动是释放愤怒的好方式";
+            case "高兴" -> "记录下让您开心的事，延续积极心态";
+            case "平静" -> "保持当前状态，冥想有助于维持内心平和";
+            default -> "保持规律作息，关注身心健康";
+        };
     }
 
     private void initConsultations() {
