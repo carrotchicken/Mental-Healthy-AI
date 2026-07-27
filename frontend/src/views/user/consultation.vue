@@ -1050,8 +1050,6 @@ onBeforeUnmount(() => {
 				rgba(255, 255, 255, 0.02) 0%,
 				rgba(255, 252, 248, 0.05) 100%
 			);
-			min-height: 0;
-			max-height: calc(100vh - 200px);
 			scrollbar-width: thin;
 			scrollbar-color: rgba(251, 146, 60, 0.3) transparent;
 			.message-item {
