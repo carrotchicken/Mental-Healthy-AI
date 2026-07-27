@@ -78,21 +78,21 @@ typora-root-url: uploads
 
 | AI 对话 | 情绪日记 | 知识库 |
 |:---:|:---:|:---:|
-| ![i-chat](/ai-chat1.png) | ![i-diary](/ai-diary1.png) | ![ental-kownledge](/mental-kownledge1.png) |
-| ![i-chat](/ai-chat2.png) | ![i-diary](/ai-diary2.png) | ![ental-kownledge](/mental-kownledge2.png) |
-|  | ![i-diary](/ai-diary3.png) |  |
+| <img src="uploads/ai-chat1.png" width="280"> | <img src="uploads/ai-diary1.png" width="280"> | <img src="uploads/mental-kownledge1.png" width="280"> |
+| <img src="uploads/ai-chat2.png" width="280"> | <img src="uploads/ai-diary2.png" width="280"> | <img src="uploads/mental-kownledge2.png" width="280"> |
+|  | <img src="uploads/ai-diary3.png" width="280"> |  |
 
 ### 管理端
 
 | 数据仪表盘 | 文章管理 | 咨询记录 |
 |:---:|:---:|:---:|
-| ![ata-analysis](/data-analysis1.png) | ![rticl](/article.png) | ![onsult-histor](/consult-history.png) |
-| ![ata-analysis](/data-analysis2.png) | ![dit](/edit1.png) | ![onsult-history](/consult-history2.png) |
+| <img src="uploads/data-analysis1.png" width="280"> | <img src="uploads/article.png" width="280"> | <img src="uploads/consult-history.png" width="280"> |
+| <img src="uploads/data-analysis2.png" width="280"> | <img src="uploads/edit1.png" width="280"> | <img src="uploads/consult-history2.png" width="280"> |
 
 | 情感分析管理 |
 |:---:|
-| ![motion-analysi](/emotion-analysis.png) |
-| ![motion-analysis](/emotion-analysis2.png) |
+| <img src="uploads/emotion-analysis.png" width="500"> |
+| <img src="uploads/emotion-analysis2.png" width="500"> |
 
 ---
 
