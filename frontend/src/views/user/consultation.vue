@@ -158,7 +158,7 @@
 					<el-icon><Plus /></el-icon>
 				</el-button>
 			</div>
-			<div class="chat-messages">
+			<div class="chat-messages" ref="chatMessagesRef">
 				<div v-if="!messageList.length" class="message-item ai-message">
 					<div class="message-avatar">
 						<el-image
@@ -272,7 +272,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import {
 	startSession,
@@ -308,6 +308,26 @@ const currentSession = ref<Record<string, string>>({
 const userMessage = ref<string>('')
 
 const messageList = ref<Message[]>([])
+const chatMessagesRef = ref<HTMLElement>()
+
+const scrollToBottom = () => {
+	nextTick(() => {
+		if (chatMessagesRef.value) {
+			chatMessagesRef.value.scrollTop = chatMessagesRef.value.scrollHeight
+		}
+	})
+}
+
+// AI 流式输出时自动滚到底部
+watch(
+	() => messageList.value.length,
+	() => scrollToBottom(),
+)
+// 监听最后一条消息内容变化（流式输出逐字增长时）
+watch(
+	() => messageList.value[messageList.value.length - 1]?.content,
+	() => scrollToBottom(),
+)
 
 const sessionList = ref<HistorySession[]>([])
 
